@@ -1,0 +1,30 @@
+namespace ca.mcgill.ecse.divesafe.controller;
+
+class TOAssignment {
+  memberEmail;
+  memberName;
+  guideEmail;
+  guideName;
+  hotelName;
+  Integer startDay;
+  Integer endDay;
+  Integer totalCostForGuide;
+  Integer totalCostForEquipment;
+}
+
+
+class TOMember {
+  email;
+  name;
+  password;
+  emergencyContact;
+  Date startDate;
+  Date endDate;
+  Integer numDays;
+  boolean guideRequired;
+  boolean hotelRequired;
+
+  @Override public String toString() {
+    return email;
+  }
+}

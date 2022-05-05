@@ -1,0 +1,71 @@
+class Member {
+ 
+ boolean hasPaid = false;
+  Date startDateOfTrip;
+  Date endDateOfTrip;
+  int refund = 0;
+ 
+  MemberAssignment {
+    
+    Unassigned {
+      assign [diveSafe.getStartAssign()] -> Assigned;
+      toggleBan -> Banned;
+    }
+    
+    Assigned {
+     
+      toggleBan -> Banned;
+      
+      Unpaid {
+        pay/{refund = 0; hasPaid = true;} -> Paid;
+        startTrip -> Banned;
+        cancel/{startDateOfTrip = null; endDateOfTrip = null;} -> Cancelled;
+      }
+      
+      Paid {
+        startTrip -> Started;
+        cancel/{startDateOfTrip = null; endDateOfTrip = null; refund = 50;} -> Cancelled;
+      }
+    }
+    
+    Started {
+      endTrip -> Finished;
+      
+      cancel/{refund = 10;} -> Cancelled;
+      toggleBan -> Banned;
+    }
+
+    Banned {
+      toggleBan -> Unassigned;
+    }
+
+    Cancelled {
+      entry/{hasPaid = false;};
+      toggleBan -> Banned;
+    }
+
+    Finished {
+
+    }
+    
+  }
+}
+
+class Guide {
+  boolean daysLeft = true;
+
+  GuideAssignment {
+    NoAssigments{
+       assignMember -> Assigning;
+    }
+    
+    Assigning{
+      assignMember[daysLeft] -> Assigning;
+      assignMember[!daysLeft] -> Full;
+    }
+      
+    Full{
+    
+    }
+  }
+}
